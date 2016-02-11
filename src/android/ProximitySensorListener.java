@@ -137,6 +137,24 @@ public class ProximitySensorListener extends CordovaPlugin implements SensorEven
         }
         else if (action.equals("stop")) {
             this.stop();
+        } else if (action.equals("getProximityState")) {
+ -            // If not running, then this is an async call, so don't worry about waiting
+ -            if (this.status != ProximitySensorListener.RUNNING) {
+ -                int r = this.start();
+ -                if (r == ProximitySensorListener.ERROR_FAILED_TO_START) {
+ -                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.IO_EXCEPTION, ProximitySensorListener.ERROR_FAILED_TO_START));
+ -                    return true;
+ -                }
+ -                // Set a timeout callback on the main thread.
+ -                Handler handler = new Handler(Looper.getMainLooper());
+ -                handler.postDelayed(new Runnable() {
+ -                    public void run() {
+ -                        ProximitySensorListener.this.timeout();
+ -                    }
+ -                }, 2000);
+ -            }
+ -            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getProximity()));
+        
         } else {
             // Unsupported action
             return false;
