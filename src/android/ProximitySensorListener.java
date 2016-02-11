@@ -137,7 +137,8 @@ public class ProximitySensorListener extends CordovaPlugin implements SensorEven
         }
         else if (action.equals("stop")) {
             this.stop();
-        } else if (action.equals("getProximityState")) {
+        } 
+        else if (action.equals("getProximityState")) {
  -            // If not running, then this is an async call, so don't worry about waiting
  -            if (this.status != ProximitySensorListener.RUNNING) {
  -                int r = this.start();
